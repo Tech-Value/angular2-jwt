@@ -32,7 +32,7 @@ export class JwtInterceptor implements HttpInterceptor {
 
     return (
       requestUrl.host === null ||
-      this.whitelistedDomains.findIndex((domain) =>
+      this.whitelistedDomains.findIndex((domain: string | RegExp) =>
         typeof domain === 'string'
           ? domain === requestUrl.host
           : domain instanceof RegExp
@@ -43,10 +43,10 @@ export class JwtInterceptor implements HttpInterceptor {
   }
 
   isBlacklistedRoute(request: HttpRequest<any>): boolean {
-    const url = request.url;
+    const url: string = request.url;
 
     return (
-      this.blacklistedRoutes.findIndex((route) =>
+      this.blacklistedRoutes.findIndex((route: string | RegExp) =>
         typeof route === 'string'
           ? route === url
           : route instanceof RegExp
@@ -57,7 +57,7 @@ export class JwtInterceptor implements HttpInterceptor {
   }
 
   handleInterception(token: string | null, request: HttpRequest<any>, next: HttpHandler) {
-    let tokenIsExpired: boolean = false;
+    let tokenIsExpired = false;
 
     if (!token && this.throwNoTokenError) {
       throw new Error('Could not get token from tokenGetter function.');
