@@ -17,7 +17,7 @@ module.exports = {
   devtool: 'inline-source-map',
 
   resolve: {
-    extensions: ['.ts', '.js']
+    extensions: ['.ts', '.js'],
   },
 
   entry: helpers.root('index.ts'),
@@ -28,7 +28,7 @@ module.exports = {
     filename: 'core.umd.js',
     library: 'angular-jwt',
     libraryTarget: 'umd',
-    globalObject: 'typeof self !== \'undefined\' ? self : this'
+    globalObject: "typeof self !== 'undefined' ? self : this",
   },
 
   // require those dependencies but don't bundle them
@@ -40,33 +40,33 @@ module.exports = {
         enforce: 'pre',
         test: /\.ts$/,
         loader: 'tslint-loader',
-        exclude: [helpers.root('node_modules')]
+        exclude: [helpers.root('node_modules')],
       },
       {
         test: /\.ts$/,
         loader: 'awesome-typescript-loader',
         options: {
-          declaration: false
+          declaration: false,
         },
-        exclude: [/\.spec\.ts$/]
-      }
-    ]
+        exclude: [/\.spec\.ts$/],
+      },
+    ],
   },
 
   plugins: [
     // fix the warning in ./~/@angular/core/src/linker/system_js_ng_module_factory_loader.js
     new webpack.ContextReplacementPlugin(
       /angular(\\|\/)core(\\|\/)@angular/,
-      helpers.root('./src')
+      helpers.root('./src'),
     ),
 
     new webpack.LoaderOptionsPlugin({
       options: {
         tslintLoader: {
           emitErrors: false,
-          failOnHint: false
-        }
-      }
+          failOnHint: false,
+        },
+      },
     }),
 
     // Reference: https://github.com/johnagan/clean-webpack-plugin
@@ -74,7 +74,7 @@ module.exports = {
     new CleanWebpackPlugin(['bundles'], {
       root: helpers.root(),
       verbose: false,
-      dry: false
-    })
-  ]
+      dry: false,
+    }),
+  ],
 };
