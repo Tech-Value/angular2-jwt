@@ -1,10 +1,11 @@
-import { Injectable, Inject } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-import { JwtHelperService } from './jwthelper.service';
-import { JWT_OPTIONS } from './jwtoptions.token';
+import { Injectable, Inject } from '@angular/core';
 import { from, Observable } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { parse } from 'url';
+
+import { JwtHelperService } from './jwthelper.service';
+import { JWT_OPTIONS } from './jwtoptions.token';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {

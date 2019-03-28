@@ -1,5 +1,3 @@
-// tslint:disable:no-bitwise
-
 import { Injectable, Inject } from '@angular/core';
 import { JWT_OPTIONS } from './jwtoptions.token';
 
@@ -74,7 +72,7 @@ export class JwtHelperService {
   }
 
   public decodeToken(token: string = this.tokenGetter()): any {
-    if(token == null || token === '') {
+    if (token == null || token === '') {
       return null;
     }
 
