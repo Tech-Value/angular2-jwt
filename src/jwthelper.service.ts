@@ -74,7 +74,7 @@ export class JwtHelperService {
   }
 
   public decodeToken(token: string = this.tokenGetter()): any {
-    if (token === null) {
+    if(token == null || token === '') {
       return null;
     }
 
@@ -98,7 +98,7 @@ export class JwtHelperService {
     let decoded: any;
     decoded = this.decodeToken(token);
 
-    if (!decoded.hasOwnProperty('exp')) {
+    if (!decoded || !decoded.hasOwnProperty('exp')) {
       return null;
     }
 
