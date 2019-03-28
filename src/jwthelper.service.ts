@@ -7,8 +7,8 @@ import { JWT_OPTIONS } from './jwtoptions.token';
 export class JwtHelperService {
   tokenGetter: () => string;
 
-  constructor(@Inject(JWT_OPTIONS) config:any = null) {
-    this.tokenGetter = config && config.tokenGetter || function() {};
+  constructor(@Inject(JWT_OPTIONS) config: any = null) {
+    this.tokenGetter = (config && config.tokenGetter) || function() {};
   }
 
   public urlBase64Decode(str: string): string {
@@ -34,16 +34,13 @@ export class JwtHelperService {
 
   // credits for decoder goes to https://github.com/atk
   private b64decode(str: string): string {
-    let chars =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+    let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
     let output: string = '';
 
     str = String(str).replace(/=+$/, '');
 
     if (str.length % 4 === 1) {
-      throw new Error(
-        "'atob' failed: The string to be decoded is not correctly encoded."
-      );
+      throw new Error("'atob' failed: The string to be decoded is not correctly encoded.");
     }
 
     for (
@@ -53,12 +50,10 @@ export class JwtHelperService {
       (buffer = str.charAt(idx++));
       // character found in table? initialize bit storage and add its ascii value;
       ~buffer &&
-      (
-        (bs = bc % 4 ? bs * 64 + buffer : buffer),
-        // and if not first of each 4 characters,
-        // convert the first 8 bits to one ascii character
-        bc++ % 4
-      )
+      ((bs = bc % 4 ? bs * 64 + buffer : buffer),
+      // and if not first of each 4 characters,
+      // convert the first 8 bits to one ascii character
+      bc++ % 4)
         ? (output += String.fromCharCode(255 & (bs >> ((-2 * bc) & 6))))
         : 0
     ) {
@@ -74,19 +69,21 @@ export class JwtHelperService {
         .call(this.b64decode(str), (c: any) => {
           return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         })
-        .join('')
+        .join(''),
     );
   }
 
   public decodeToken(token: string = this.tokenGetter()): any {
-    if(token===null) {
+    if (token === null) {
       return null;
     }
 
     let parts = token.split('.');
 
     if (parts.length !== 3) {
-      throw new Error('The inspected token doesn\'t appear to be a JWT. Check to make sure it has three parts and see https://jwt.io for more.');
+      throw new Error(
+        "The inspected token doesn't appear to be a JWT. Check to make sure it has three parts and see https://jwt.io for more.",
+      );
     }
 
     let decoded = this.urlBase64Decode(parts[1]);
@@ -113,7 +110,7 @@ export class JwtHelperService {
 
   public isTokenExpired(token: string = this.tokenGetter(), offsetSeconds?: number): boolean {
     if (token === null || token === '') {
-        return true;
+      return true;
     }
     let date = this.getTokenExpirationDate(token);
     offsetSeconds = offsetSeconds || 0;
