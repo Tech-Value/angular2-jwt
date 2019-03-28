@@ -69,7 +69,7 @@ export class JwtInterceptor implements HttpInterceptor {
 
     if (token && tokenIsExpired && this.skipWhenExpired) {
       request = request.clone();
-    } else if (token && this.isWhitelistedDomain(request) && !this.isBlacklistedRoute(request)) {
+    } else if (token) {
       request = request.clone({
         setHeaders: {
           [this.headerName]: `${this.authScheme}${token}`,
@@ -80,6 +80,10 @@ export class JwtInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (!this.isWhitelistedDomain(request) || this.isBlacklistedRoute(request)) {
+      return next.handle(request);
+    }
+
     const token = this.tokenGetter();
 
     if (token instanceof Promise) {
