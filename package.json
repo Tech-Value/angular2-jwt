@@ -28,6 +28,16 @@
   "peerDependencies": {
     "@angular/common": ">=6.0.0"
   },
+  "prettier": {
+    "printWidth": 100,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": true,
+    "bracketSpacing": true,
+    "arrowParens": "always"
+  },
   "devDependencies": {
     "@angular/animations": "^6.0.0",
     "@angular/common": "^6.0.0",
